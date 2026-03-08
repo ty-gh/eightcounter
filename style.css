@@ -100,12 +100,22 @@ h1 {
 .counter-card {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 6px;
-  padding: 16px;
+  padding: 12px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.counter-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .counter-name {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   border: none;
   border-bottom: 1.5px solid #d0cec9;
   text-align: center;
@@ -121,46 +131,44 @@ h1 {
   border-bottom-color: #6a8a9a;
 }
 
+.counter-body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .counter-value {
+  flex: 1;
   font-size: 2.2rem;
   font-weight: 700;
-  margin: 12px 0;
   color: #3a3a3a;
   user-select: none;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.15s;
 }
 
-.counter-buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
+.counter-value:active {
+  background: rgba(106, 138, 154, 0.15);
 }
 
-.counter-buttons button {
-  width: 42px;
-  height: 42px;
+.counter-body .btn-decrement {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
   border: none;
-  border-radius: 50%;
-  font-size: 1.1rem;
+  border-radius: 6px;
+  font-size: 1.3rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.1s, opacity 0.2s;
   color: #fff;
-}
-
-.counter-buttons button:active {
-  transform: scale(0.92);
-}
-
-.btn-increment {
-  background: rgba(106, 138, 154, 0.5);
-}
-
-.btn-increment:hover {
-  opacity: 0.85;
-}
-
-.btn-decrement {
   background: rgba(122, 138, 154, 0.5);
+}
+
+.counter-body .btn-decrement:active {
+  transform: scale(0.92);
 }
 
 .btn-decrement:hover {
@@ -168,9 +176,21 @@ h1 {
 }
 
 .btn-reset {
-  background: rgba(154, 154, 154, 0.5);
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(154, 154, 154, 0.4);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn-reset:active {
+  transform: scale(0.92);
 }
 
 .btn-reset:hover {
@@ -226,11 +246,10 @@ h1 {
 
   .counter-value {
     font-size: 1.8rem;
-    margin: 8px 0;
   }
 
-  .counter-buttons button {
-    width: 38px;
-    height: 38px;
+  .counter-body .btn-decrement {
+    width: 50px;
+    height: 50px;
   }
 }

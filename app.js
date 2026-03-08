@@ -91,12 +91,13 @@ function render() {
     const card = document.createElement('div');
     card.className = 'counter-card';
     card.innerHTML = `
-      <input type="text" class="counter-name" value="${escapeHtml(counter.name)}" data-index="${index}">
-      <div class="counter-value" id="value-${index}">${counter.value}</div>
-      <div class="counter-buttons">
-        <button class="btn-decrement" data-index="${index}" data-action="decrement">−</button>
+      <div class="counter-header">
+        <input type="text" class="counter-name" value="${escapeHtml(counter.name)}" data-index="${index}">
         <button class="btn-reset" data-index="${index}" data-action="reset">0</button>
-        <button class="btn-increment" data-index="${index}" data-action="increment">＋</button>
+      </div>
+      <div class="counter-body">
+        <div class="counter-value" data-index="${index}" data-action="increment" id="value-${index}">${counter.value}</div>
+        <button class="btn-decrement" data-index="${index}" data-action="decrement">−</button>
       </div>
     `;
     grid.appendChild(card);
@@ -140,10 +141,11 @@ function resetAll() {
 
 // イベント委譲
 document.getElementById('counterGrid').addEventListener('click', (e) => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  const index = parseInt(btn.dataset.index, 10);
-  const action = btn.dataset.action;
+  // ボタンまたはカウンター値のクリックを処理
+  const target = e.target.closest('[data-action]');
+  if (!target) return;
+  const index = parseInt(target.dataset.index, 10);
+  const action = target.dataset.action;
   updateValue(index, action);
 });
 
