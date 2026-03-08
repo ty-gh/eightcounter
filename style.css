@@ -6,17 +6,23 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #e8e6e1;
-  color: #3a3a3a;
+  background: #fff;
+  color: #1a1a1a;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0;
+}
+
+.app-header {
+  background: #00bcd4;
+  padding: 20px 20px 16px;
+  margin-bottom: 16px;
 }
 
 h1 {
   text-align: center;
   font-size: 1.4rem;
-  margin-bottom: 16px;
-  color: #4a4a4a;
+  margin-bottom: 12px;
+  color: #fff;
   font-weight: 600;
   letter-spacing: 0.05em;
 }
@@ -28,9 +34,9 @@ h1 {
   justify-content: center;
   gap: 16px;
   max-width: 800px;
-  margin: 0 auto 16px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 6px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
   padding: 12px 24px;
 }
 
@@ -38,7 +44,7 @@ h1 {
   font-size: 2rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: #3a3a3a;
+  color: #fff;
   letter-spacing: 0.05em;
   user-select: none;
 }
@@ -65,7 +71,7 @@ h1 {
 }
 
 .sw-start {
-  background: rgba(90, 138, 106, 0.5);
+  background: #0097a7;
 }
 
 .sw-start:hover {
@@ -73,7 +79,7 @@ h1 {
 }
 
 .sw-stop {
-  background: rgba(176, 80, 80, 0.5);
+  background: #ef5350;
 }
 
 .sw-stop:hover {
@@ -81,7 +87,7 @@ h1 {
 }
 
 .sw-reset {
-  background: rgba(138, 138, 138, 0.5);
+  background: #78909c;
 }
 
 .sw-reset:hover {
@@ -95,16 +101,17 @@ h1 {
   gap: 12px;
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .counter-card {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 6px;
-  padding: 12px;
+  background: #e0f7fa;
+  border-radius: 8px;
+  padding: 16px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .counter-header {
@@ -117,18 +124,18 @@ h1 {
   flex: 1;
   min-width: 0;
   border: none;
-  border-bottom: 1.5px solid #d0cec9;
+  border-bottom: 1.5px solid #80deea;
   text-align: center;
   font-size: 0.85rem;
   padding: 4px 0;
   background: transparent;
-  color: #5a5a5a;
+  color: #006064;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .counter-name:focus {
-  border-bottom-color: #6a8a9a;
+  border-bottom-color: #00838f;
 }
 
 .counter-body {
@@ -139,9 +146,9 @@ h1 {
 
 .counter-value {
   flex: 1;
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   font-weight: 700;
-  color: #3a3a3a;
+  color: #006064;
   user-select: none;
   text-align: center;
   cursor: pointer;
@@ -150,7 +157,7 @@ h1 {
 }
 
 .counter-value:active {
-  background: rgba(106, 138, 154, 0.15);
+  background: #b2ebf2;
 }
 
 .counter-body .btn-decrement {
@@ -164,7 +171,7 @@ h1 {
   cursor: pointer;
   transition: transform 0.1s, opacity 0.2s;
   color: #fff;
-  background: rgba(122, 138, 154, 0.5);
+  background: #0097a7;
 }
 
 .counter-body .btn-decrement:active {
@@ -181,7 +188,7 @@ h1 {
   flex-shrink: 0;
   border: none;
   border-radius: 6px;
-  background: rgba(154, 154, 154, 0.4);
+  background: #26c6da;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -204,7 +211,7 @@ h1 {
 }
 
 .reset-all-btn {
-  background: rgba(138, 138, 154, 0.5);
+  background: #0097a7;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -245,7 +252,7 @@ h1 {
   }
 
   .counter-value {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
 
   .counter-body .btn-decrement {
