@@ -1,4 +1,4 @@
-const COUNTER_COUNT = 7;
+const COUNTER_COUNT = 8;
 const STORAGE_KEY = 'eightCounterData';
 
 // ストップウォッチ
@@ -25,8 +25,7 @@ function saveData(data) {
 function formatTime(ms) {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
-  const centiseconds = Math.floor((ms % 1000) / 10);
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centiseconds).padStart(2, '0')}`;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function updateStopwatchDisplay() {
@@ -42,14 +41,14 @@ function toggleStopwatch() {
     swRunning = false;
     clearInterval(swInterval);
     swInterval = null;
-    document.getElementById('sw-toggle').textContent = 'スタート';
+    document.getElementById('sw-toggle').textContent = 'S';
     document.getElementById('sw-toggle').classList.remove('sw-stop');
     document.getElementById('sw-toggle').classList.add('sw-start');
   } else {
     swStartTime = Date.now();
     swRunning = true;
-    swInterval = setInterval(updateStopwatchDisplay, 10);
-    document.getElementById('sw-toggle').textContent = 'ストップ';
+    swInterval = setInterval(updateStopwatchDisplay, 500);
+    document.getElementById('sw-toggle').textContent = 'S';
     document.getElementById('sw-toggle').classList.remove('sw-start');
     document.getElementById('sw-toggle').classList.add('sw-stop');
   }
@@ -61,23 +60,22 @@ function resetStopwatch() {
   clearInterval(swInterval);
   swInterval = null;
   updateStopwatchDisplay();
-  document.getElementById('sw-toggle').textContent = 'スタート';
+  document.getElementById('sw-toggle').textContent = 'S';
   document.getElementById('sw-toggle').classList.remove('sw-stop');
   document.getElementById('sw-toggle').classList.add('sw-start');
 }
 
 function renderStopwatch() {
-  const card = document.createElement('div');
-  card.className = 'counter-card stopwatch-card';
-  card.innerHTML = `
-    <div class="stopwatch-label">ストップウォッチ</div>
-    <div class="counter-value" id="sw-display">${formatTime(swElapsed)}</div>
-    <div class="counter-buttons">
-      <button class="sw-btn sw-start" id="sw-toggle">スタート</button>
-      <button class="sw-btn sw-reset" id="sw-reset">リセット</button>
+  const sw = document.getElementById('stopwatch');
+  sw.innerHTML = `
+    <div class="sw-display" id="sw-display">${formatTime(swElapsed)}</div>
+    <div class="sw-buttons">
+      <button class="sw-btn sw-start" id="sw-toggle">S</button>
+      <button class="sw-btn sw-reset" id="sw-reset">R</button>
     </div>
   `;
-  return card;
+  document.getElementById('sw-toggle').addEventListener('click', toggleStopwatch);
+  document.getElementById('sw-reset').addEventListener('click', resetStopwatch);
 }
 
 function render() {
@@ -86,11 +84,8 @@ function render() {
 
   grid.innerHTML = '';
 
-  // ストップウォッチを左上に配置
-  const swCard = renderStopwatch();
-  grid.appendChild(swCard);
-  document.getElementById('sw-toggle').addEventListener('click', toggleStopwatch);
-  document.getElementById('sw-reset').addEventListener('click', resetStopwatch);
+  // ストップウォッチをグリッド上部に配置
+  renderStopwatch();
 
   data.forEach((counter, index) => {
     const card = document.createElement('div');
