@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.counter-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.counter-name {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  background: transparent;
+  color: #555;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.counter-name:focus {
+  border-bottom-color: #3498db;
+}
+
+.counter-value {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 12px 0;
+  color: #2c3e50;
+  user-select: none;
+}
+
+.counter-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.counter-buttons button {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  color: #fff;
+}
+
+.counter-buttons button:active {
+  transform: scale(0.92);
+}
+
+.btn-increment {
+  background: #3498db;
+}
+
+.btn-increment:hover {
+  background: #2980b9;
+}
+
+.btn-decrement {
+  background: #e74c3c;
+}
+
+.btn-decrement:hover {
+  background: #c0392b;
+}
+
+.btn-reset {
+  background: #95a5a6;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+}
+
+.btn-reset:hover {
+  background: #7f8c8d;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.reset-all-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reset-all-btn:hover {
+  background: #c0392b;
+}
+
+/* スマートフォン: 2列×4行 */
+@media (max-width: 600px) {
+  body {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+  }
+
+  .counter-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .counter-value {
+    font-size: 2rem;
+    margin: 8px 0;
+  }
+
+  .counter-buttons button {
+    width: 40px;
+    height: 40px;
+  }
+}
