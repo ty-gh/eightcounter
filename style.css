@@ -108,6 +108,59 @@ h1 {
   background: #7f8c8d;
 }
 
+/* ストップウォッチ */
+.stopwatch-card {
+  background: #fff9e6;
+  border: 2px solid #f0c040;
+}
+
+.stopwatch-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b8860b;
+  padding: 4px 0;
+  border-bottom: 2px solid #f0c040;
+}
+
+.sw-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+.sw-btn:active {
+  transform: scale(0.92);
+}
+
+.sw-start {
+  background: #27ae60;
+}
+
+.sw-start:hover {
+  background: #219a52;
+}
+
+.sw-stop {
+  background: #e74c3c;
+}
+
+.sw-stop:hover {
+  background: #c0392b;
+}
+
+.sw-reset {
+  background: #95a5a6;
+}
+
+.sw-reset:hover {
+  background: #7f8c8d;
+}
+
 .actions {
   text-align: center;
   margin-top: 24px;
