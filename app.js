@@ -1,26 +1,38 @@
 const COUNTER_COUNT = 8;
 const STORAGE_KEY = 'eightCounterData';
 
-// ストップウォッチ
-let swElapsed = 0;
-let swStartTime = 0;
-let swRunning = false;
-let swInterval = null;
+// カウンターデータ（メモリキャッシュ）
+let counters = loadFromStorage();
 
-function loadData() {
+// ストップウォッチ状態
+const stopwatch = {
+  elapsed: 0,
+  startTime: 0,
+  running: false,
+  intervalId: null,
+  els: {},
+};
+
+function loadFromStorage() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    return JSON.parse(saved);
-  }
+  if (saved) return JSON.parse(saved);
   return Array.from({ length: COUNTER_COUNT }, (_, i) => ({
     name: `カウンター${i + 1}`,
     value: 0,
   }));
 }
 
-function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(counters));
 }
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ── ストップウォッチ ──
 
 function formatTime(ms) {
   const minutes = Math.floor(ms / 60000);
@@ -29,65 +41,91 @@ function formatTime(ms) {
 }
 
 function updateStopwatchDisplay() {
-  const display = document.getElementById('sw-display');
-  if (!display) return;
-  const current = swRunning ? swElapsed + (Date.now() - swStartTime) : swElapsed;
-  display.textContent = formatTime(current);
+  const { els, running, elapsed, startTime } = stopwatch;
+  if (!els.display) return;
+  const current = running ? elapsed + (Date.now() - startTime) : elapsed;
+  els.display.textContent = formatTime(current);
 }
 
 function toggleStopwatch() {
-  if (swRunning) {
-    swElapsed += Date.now() - swStartTime;
-    swRunning = false;
-    clearInterval(swInterval);
-    swInterval = null;
-    document.getElementById('sw-toggle').textContent = 'S';
-    document.getElementById('sw-toggle').classList.remove('sw-stop');
-    document.getElementById('sw-toggle').classList.add('sw-start');
+  const sw = stopwatch;
+  const btn = sw.els.toggle;
+  if (sw.running) {
+    sw.elapsed += Date.now() - sw.startTime;
+    sw.running = false;
+    clearInterval(sw.intervalId);
+    sw.intervalId = null;
+    btn.classList.replace('sw-stop', 'sw-start');
   } else {
-    swStartTime = Date.now();
-    swRunning = true;
-    swInterval = setInterval(updateStopwatchDisplay, 500);
-    document.getElementById('sw-toggle').textContent = 'S';
-    document.getElementById('sw-toggle').classList.remove('sw-start');
-    document.getElementById('sw-toggle').classList.add('sw-stop');
+    sw.startTime = Date.now();
+    sw.running = true;
+    sw.intervalId = setInterval(updateStopwatchDisplay, 500);
+    btn.classList.replace('sw-start', 'sw-stop');
   }
 }
 
 function resetStopwatch() {
-  swRunning = false;
-  swElapsed = 0;
-  clearInterval(swInterval);
-  swInterval = null;
+  const sw = stopwatch;
+  sw.running = false;
+  sw.elapsed = 0;
+  clearInterval(sw.intervalId);
+  sw.intervalId = null;
   updateStopwatchDisplay();
-  document.getElementById('sw-toggle').textContent = 'S';
-  document.getElementById('sw-toggle').classList.remove('sw-stop');
-  document.getElementById('sw-toggle').classList.add('sw-start');
+  sw.els.toggle.classList.replace('sw-stop', 'sw-start');
 }
 
-function renderStopwatch() {
-  const sw = document.getElementById('stopwatch');
-  sw.innerHTML = `
-    <div class="sw-display" id="sw-display">${formatTime(swElapsed)}</div>
-    <div class="sw-buttons">
-      <button class="sw-btn sw-start" id="sw-toggle">S</button>
-      <button class="sw-btn sw-reset" id="sw-reset">R</button>
-    </div>
-  `;
-  document.getElementById('sw-toggle').addEventListener('click', toggleStopwatch);
-  document.getElementById('sw-reset').addEventListener('click', resetStopwatch);
+function initStopwatch() {
+  const container = document.getElementById('stopwatch');
+  const display = document.createElement('div');
+  display.className = 'sw-display';
+  display.textContent = formatTime(0);
+
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'sw-btn sw-start';
+  toggleBtn.textContent = 'S';
+  toggleBtn.addEventListener('click', toggleStopwatch);
+
+  const resetBtn = document.createElement('button');
+  resetBtn.className = 'sw-btn sw-reset';
+  resetBtn.textContent = 'R';
+  resetBtn.addEventListener('click', resetStopwatch);
+
+  const buttons = document.createElement('div');
+  buttons.className = 'sw-buttons';
+  buttons.append(toggleBtn, resetBtn);
+
+  container.append(display, buttons);
+
+  stopwatch.els = { display, toggle: toggleBtn };
 }
 
-function render() {
+// ── カウンター ──
+
+function updateValue(index, action) {
+  const counter = counters[index];
+  if (action === 'increment') counter.value++;
+  else if (action === 'decrement') counter.value--;
+  else if (action === 'reset') counter.value = 0;
+  save();
+  document.getElementById(`value-${index}`).textContent = counter.value;
+}
+
+function updateName(index, name) {
+  counters[index].name = name;
+  save();
+}
+
+function resetAll() {
+  if (!confirm('すべてのカウンターをリセットしますか？')) return;
+  counters.forEach((c) => { c.value = 0; });
+  save();
+  renderCounters();
+}
+
+function renderCounters() {
   const grid = document.getElementById('counterGrid');
-  const data = loadData();
-
   grid.innerHTML = '';
-
-  // ストップウォッチをグリッド上部に配置
-  renderStopwatch();
-
-  data.forEach((counter, index) => {
+  counters.forEach((counter, index) => {
     const card = document.createElement('div');
     card.className = 'counter-card';
     card.innerHTML = `
@@ -104,59 +142,23 @@ function render() {
   });
 }
 
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
+// ── イベント委譲 ──
 
-function updateValue(index, action) {
-  const data = loadData();
-  if (action === 'increment') {
-    data[index].value++;
-  } else if (action === 'decrement') {
-    data[index].value--;
-  } else if (action === 'reset') {
-    data[index].value = 0;
-  }
-  saveData(data);
-  document.getElementById(`value-${index}`).textContent = data[index].value;
-}
-
-function updateName(index, name) {
-  const data = loadData();
-  data[index].name = name;
-  saveData(data);
-}
-
-function resetAll() {
-  if (!confirm('すべてのカウンターをリセットしますか？')) return;
-  const data = loadData();
-  data.forEach((counter) => {
-    counter.value = 0;
-  });
-  saveData(data);
-  render();
-}
-
-// イベント委譲
 document.getElementById('counterGrid').addEventListener('click', (e) => {
-  // ボタンまたはカウンター値のクリックを処理
   const target = e.target.closest('[data-action]');
   if (!target) return;
-  const index = parseInt(target.dataset.index, 10);
-  const action = target.dataset.action;
-  updateValue(index, action);
+  updateValue(parseInt(target.dataset.index, 10), target.dataset.action);
 });
 
 document.getElementById('counterGrid').addEventListener('input', (e) => {
   if (e.target.classList.contains('counter-name')) {
-    const index = parseInt(e.target.dataset.index, 10);
-    updateName(index, e.target.value);
+    updateName(parseInt(e.target.dataset.index, 10), e.target.value);
   }
 });
 
 document.getElementById('resetAllBtn').addEventListener('click', resetAll);
 
-// 初期描画
-render();
+// ── 初期化 ──
+
+initStopwatch();
+renderCounters();

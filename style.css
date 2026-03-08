@@ -12,6 +12,24 @@ body {
   padding: 0;
 }
 
+/* 共通ボタンスタイル */
+button {
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active {
+  transform: scale(0.92);
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* ヘッダー */
 .app-header {
   background: #00bcd4;
   padding: 20px 20px 16px;
@@ -59,42 +77,13 @@ h1 {
 .sw-btn {
   width: 40px;
   height: 40px;
-  border: none;
   border-radius: 50%;
   font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  color: #fff;
-  transition: transform 0.1s, opacity 0.2s;
 }
 
-.sw-btn:active {
-  transform: scale(0.92);
-}
-
-.sw-start {
-  background: #0097a7;
-}
-
-.sw-start:hover {
-  opacity: 0.85;
-}
-
-.sw-stop {
-  background: #ef5350;
-}
-
-.sw-stop:hover {
-  opacity: 0.85;
-}
-
-.sw-reset {
-  background: #26c6da;
-}
-
-.sw-reset:hover {
-  opacity: 0.85;
-}
+.sw-start { background: #0097a7; }
+.sw-stop { background: #ef5350; }
+.sw-reset { background: #26c6da; }
 
 /* カウンターグリッド */
 .counter-grid {
@@ -162,48 +151,23 @@ h1 {
   background: #b2ebf2;
 }
 
-.counter-body .btn-decrement {
+.btn-decrement {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
-  border: none;
   border-radius: 6px;
   font-size: 1.3rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.1s, opacity 0.2s;
-  color: #fff;
   background: #0097a7;
-}
-
-.counter-body .btn-decrement:active {
-  transform: scale(0.92);
-}
-
-.btn-decrement:hover {
-  opacity: 0.85;
 }
 
 .btn-reset {
   width: 36px;
   height: 36px;
   flex-shrink: 0;
-  border: none;
   border-radius: 6px;
   background: #26c6da;
   font-size: 0.8rem;
   font-weight: 600;
-  cursor: pointer;
-  color: #fff;
-  transition: transform 0.1s, opacity 0.2s;
-}
-
-.btn-reset:active {
-  transform: scale(0.92);
-}
-
-.btn-reset:hover {
-  opacity: 0.85;
 }
 
 /* フッターアクション */
@@ -214,18 +178,10 @@ h1 {
 
 .reset-all-btn {
   background: #0097a7;
-  color: #fff;
-  border: none;
   border-radius: 6px;
   padding: 10px 28px;
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.reset-all-btn:hover {
-  opacity: 0.85;
 }
 
 /* スマートフォン: 2列×4行 */
@@ -257,7 +213,7 @@ h1 {
     font-size: 2.2rem;
   }
 
-  .counter-body .btn-decrement {
+  .btn-decrement {
     width: 36px;
     height: 36px;
   }
